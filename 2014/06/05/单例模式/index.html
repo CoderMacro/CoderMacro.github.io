@@ -1,0 +1,896 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="单例,iOS基础," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="数学与逻辑学中，singleton定义为“有且仅有一个元素的集合”。单例模式最初的定义出现于《设计模式》（艾迪生维斯理, 1994）：“保证一个类仅有一个实例，并提供一个访问它的全局访问点。”
+
+写在前面的话一开始我并不了解单例模式的应用场景。只是知道有这么一种设计模式，怎么去实现它。但是随着使用频率的上升。您就能体会到单例模式的好处，简单的说—-单例模式就是保证这个单例类的实例化的对象只有一份">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单例模式">
+<meta property="og:url" content="http://yoursite.com/2014/06/05/单例模式/index.html">
+<meta property="og:site_name" content="张洋的技术博客">
+<meta property="og:description" content="数学与逻辑学中，singleton定义为“有且仅有一个元素的集合”。单例模式最初的定义出现于《设计模式》（艾迪生维斯理, 1994）：“保证一个类仅有一个实例，并提供一个访问它的全局访问点。”
+
+写在前面的话一开始我并不了解单例模式的应用场景。只是知道有这么一种设计模式，怎么去实现它。但是随着使用频率的上升。您就能体会到单例模式的好处，简单的说—-单例模式就是保证这个单例类的实例化的对象只有一份">
+<meta property="og:image" content="http://ac-qmq0qkq0.clouddn.com/b603f67c96dfc805.png">
+<meta property="og:updated_time" content="2016-03-25T10:00:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="单例模式">
+<meta name="twitter:description" content="数学与逻辑学中，singleton定义为“有且仅有一个元素的集合”。单例模式最初的定义出现于《设计模式》（艾迪生维斯理, 1994）：“保证一个类仅有一个实例，并提供一个访问它的全局访问点。”
+
+写在前面的话一开始我并不了解单例模式的应用场景。只是知道有这么一种设计模式，怎么去实现它。但是随着使用频率的上升。您就能体会到单例模式的好处，简单的说—-单例模式就是保证这个单例类的实例化的对象只有一份">
+<meta name="twitter:image" content="http://ac-qmq0qkq0.clouddn.com/b603f67c96dfc805.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 单例模式 | 张洋的技术博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">张洋的技术博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">分享是一种美德，学习是一种超越。</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                单例模式
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-06-05T19:13:20+08:00" content="2014-06-05">
+              2014-06-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/单例模式相关/" itemprop="url" rel="index">
+                    <span itemprop="name">单例模式相关</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/06/05/单例模式/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/06/05/单例模式/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>数学与逻辑学中，singleton定义为“有且仅有一个元素的集合”。<br>单例模式最初的定义出现于《设计模式》（艾迪生维斯理, 1994）：“保证一个类仅有一个实例，并提供一个访问它的全局访问点。”</p>
+</blockquote>
+<h3 id="写在前面的话"><a href="#写在前面的话" class="headerlink" title="写在前面的话"></a>写在前面的话</h3><p>一开始我并不了解单例模式的应用场景。只是知道有这么一种设计模式，怎么去实现它。但是随着使用频率的上升。您就能体会到单例模式的好处，简单的说—-单例模式就是保证这个单例类的实例化的对象只有一份，不管怎么多次实例化对象，他得对象都是同一个。</p>
+<h3 id="一步步实现iOS中单例的写法"><a href="#一步步实现iOS中单例的写法" class="headerlink" title="一步步实现iOS中单例的写法"></a>一步步实现iOS中单例的写法</h3><p>1 集成NSObject 实现一个单例类, 实现一个类方法。让这个方法返回的实例唯一。</p>
+<pre><code>// 定义一个实例对象
+id _mySingleton;
++ (instancetype)shareSingleton {
+// 如果不为空直接返回
+    if (_mySingleton == nil) {
+    _mySingleton = [[self alloc] init];
+    }
+    return _mySingleton;
+}
+</code></pre><p>如下图所示 : 不论调用多少次内存地址都一样。保证单例类的对象的唯一</p>
+<p><img src="http://ac-qmq0qkq0.clouddn.com/b603f67c96dfc805.png" alt=""></p>
+<p>2 我们还得考虑多个线程 同时实例化的时候 所以需要加线程锁 且在最外面加一层判断</p>
+<pre><code>// 定义一个实例对象
+id _mySingleton;
++ (instancetype)shareSingleton {
+
+    if (_mySingleton == nil) {// 防止多线程重复加锁
+        @synchronized(self) { // 加线程锁
+            if (_mySingleton == nil) { // 防止重复实例化
+            _mySingleton = [[self alloc] init];
+            }
+        }
+    }
+    return _mySingleton;
+}
+</code></pre><p>3 为了保证 全局对象 _mySingleton的唯一性 加static修饰</p>
+<p>// static 修饰全局变量 全局变量的作用域只在当前类<br><code>static id _mySingleton;</code></p>
+<p>4 但是当使用copy 或 alloc 实例化对象的时候就会发生对象地址改变，实例化对象不唯一现象，解决办法就是重写allocWithZone 和 copyWithZone<code>注意这里必须要实现&lt;NSCopying&gt;协议才能打出来</code> 一下就是完整版的单例类实现</p>
+<pre><code>// 定义一个实例对象
+
+static id _mySingleton;
++ (instancetype)shareSingleton {
+
+    if (_mySingleton == nil) {// 防止多线程重复加锁
+        @synchronized(self) { // 加线程锁
+            if (_mySingleton == nil) { // 防止重复实例化
+                _mySingleton = [[self alloc] init];
+            }
+        }
+    }
+    return _mySingleton;
+}
+
+// 重写allocWithZone 调用父类的方法
++ (instancetype)allocWithZone:(struct _NSZone *)zone {
+    if (_mySingleton == nil) {
+        @synchronized(self) {
+            if (_mySingleton == nil) {
+                _mySingleton = [super allocWithZone:zone];
+            }
+        }
+    }
+    return _mySingleton;
+}
+// 重写copyWithZone
+- (id)copyWithZone:(NSZone *)zone {
+    return _mySingleton;
+}
+</code></pre><h3 id="懒汉式单例和饿汉式单例–-推荐大家使用懒汉式"><a href="#懒汉式单例和饿汉式单例–-推荐大家使用懒汉式" class="headerlink" title="懒汉式单例和饿汉式单例– 推荐大家使用懒汉式"></a>懒汉式单例和饿汉式单例– 推荐大家使用懒汉式</h3><p>上面我们提到这种实现方式就是懒汉式 用到的时候加载</p>
+<p>饿汉式实现方式主要思路是程序加载到内存时候进行创建</p>
+<pre><code>// 定义一个实例对象
+static id _mySingleton;
+
++ (void)load {
+    _mySingleton = [[self alloc] init];
+}
+
++ (instancetype)shareSingleton {
+    return _mySingleton;
+}
+
++ (instancetype)allocWithZone:(struct _NSZone *)zone {
+    if (_mySingleton == nil) {
+        _mySingleton = [super allocWithZone:zone];
+    }
+    return _mySingleton;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    return _mySingleton;
+}
+</code></pre><h3 id="MRC实现单例的时候防止对象被释放重写一下三个方法"><a href="#MRC实现单例的时候防止对象被释放重写一下三个方法" class="headerlink" title="MRC实现单例的时候防止对象被释放重写一下三个方法"></a>MRC实现单例的时候防止对象被释放重写一下三个方法</h3><pre><code>- (oneway void)release {
+// 什么也不写
+}
+
+- (id)retain {
+    return self;
+}    
+
+- (NSUInteger)retainCount {
+    return 1;
+}
+</code></pre><h3 id="用GCD得方式实现单例类"><a href="#用GCD得方式实现单例类" class="headerlink" title="用GCD得方式实现单例类"></a>用GCD得方式实现单例类</h3><pre><code>// 定义一个实例对象
+static id _mySingleton;
++ (instancetype)shareSingleton {
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&amp;onceToken, ^{
+        _mySingleton = [[self alloc] init];
+    });
+
+    return _mySingleton;
+}
+
+// 重写allocWithZone 调用父类的方法
++ (instancetype)allocWithZone:(struct _NSZone *)zone {
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&amp;onceToken, ^{
+        _mySingleton = [super allocWithZone:zone];
+    });
+
+    return _mySingleton;
+}
+
+// 重写copyWithZone
+- (id)copyWithZone:(NSZone *)zone {
+    return _mySingleton;
+}
+</code></pre><h3 id="用宏实现快捷单例类"><a href="#用宏实现快捷单例类" class="headerlink" title="用宏实现快捷单例类"></a>用宏实现快捷单例类</h3><pre><code>#define Single(name) \
+\
+static id _my##name;\
++ (instancetype)share##name {\
+\
+static dispatch_once_t onceToken;\
+dispatch_once(&amp;onceToken, ^{\
+_my##name = [[self alloc] init];\
+});\
+\
+return _my##name;\
+}\
+\
++ (instancetype)allocWithZone:(struct _NSZone *)zone {\
+\
+static dispatch_once_t onceToken;\
+dispatch_once(&amp;onceToken, ^{\
+_my##name = [super allocWithZone:zone];\
+});\
+\
+return _my##name;\
+}\
+\
+- (id)copyWithZone:(NSZone *)zone {\
+return _my##name;\
+}
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/单例/" rel="tag">#单例</a>
+          
+            <a href="/tags/iOS基础/" rel="tag">#iOS基础</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/07/04/多线程（一）/" rel="prev" title="多线程基础01 概念和NSThread">
+                多线程基础01 概念和NSThread <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Macro.rowe/张洋" />
+          <p class="site-author-name" itemprop="name">Macro.rowe/张洋</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+          
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#写在前面的话"><span class="nav-number">1.</span> <span class="nav-text">写在前面的话</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一步步实现iOS中单例的写法"><span class="nav-number">2.</span> <span class="nav-text">一步步实现iOS中单例的写法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#懒汉式单例和饿汉式单例–-推荐大家使用懒汉式"><span class="nav-number">3.</span> <span class="nav-text">懒汉式单例和饿汉式单例– 推荐大家使用懒汉式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MRC实现单例的时候防止对象被释放重写一下三个方法"><span class="nav-number">4.</span> <span class="nav-text">MRC实现单例的时候防止对象被释放重写一下三个方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用GCD得方式实现单例类"><span class="nav-number">5.</span> <span class="nav-text">用GCD得方式实现单例类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用宏实现快捷单例类"><span class="nav-number">6.</span> <span class="nav-text">用宏实现快捷单例类</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Macro.rowe/张洋</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  
+
+
+  
+
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'MacroRowe';
+      var disqus_identifier = '2014/06/05/单例模式/';
+      var disqus_title = '单例模式';
+      var disqus_url = 'http://yoursite.com/2014/06/05/单例模式/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+  
+
+
+</body>
+</html>

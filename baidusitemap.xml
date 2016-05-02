@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+
+    
+  <url>
+    <loc>http://yoursite.com/2014/07/05/%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%88%E4%BA%8C%EF%BC%89/</loc>
+    <lastmod>2016-03-27T11:49:55.000Z</lastmod>
+    <data>
+        <display>
+        <title>多线程基础02 GCD</title>
+        <pubTime>2014-07-05T04:53:07.000Z</pubTime>
+        
+        <tag>多线程</tag>
+         
+         
+           
+             
+              <breadCrumb title="多线程" url="http://yoursite.com/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://yoursite.com/2014/07/04/%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/</loc>
+    <lastmod>2016-03-26T13:42:34.000Z</lastmod>
+    <data>
+        <display>
+        <title>多线程基础01 概念和NSThread</title>
+        <pubTime>2014-07-04T04:21:39.000Z</pubTime>
+        
+        <tag>多线程</tag>
+         
+         
+           
+             
+              <breadCrumb title="多线程" url="http://yoursite.com/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://yoursite.com/2014/06/05/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</loc>
+    <lastmod>2016-03-25T10:00:27.000Z</lastmod>
+    <data>
+        <display>
+        <title>单例模式</title>
+        <pubTime>2014-06-05T11:13:20.000Z</pubTime>
+        
+        <tag>单例</tag>
+         
+        <tag>iOS基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="单例模式相关" url="http://yoursite.com/categories/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E7%9B%B8%E5%85%B3/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://yoursite.com/2014/07/07/%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89/</loc>
+    <lastmod>2016-03-25T09:55:31.000Z</lastmod>
+    <data>
+        <display>
+        <title>多线程基础03 NSOperation</title>
+        <pubTime>2014-07-07T04:56:07.000Z</pubTime>
+        
+        <tag>多线程</tag>
+         
+         
+           
+             
+              <breadCrumb title="多线程" url="http://yoursite.com/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+    
+</urlset>
