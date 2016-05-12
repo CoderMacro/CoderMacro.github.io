@@ -57,40 +57,16 @@
 
 
 
-<meta name="description" content="NSOperation和GCD很类似
-
-NSOperation的作用
-配合使用NSOperation 和 NSOperationQueue也能实现多线程编程
-
-NSOperation和NSOperationQueue实现多线程的具体步骤
-现将需要执行的操作封住到一个NSOperation对象中
-然后将NSoperation对象添加到NSOperationQueue中
-系统会自动将NSOpera">
+<meta name="description" content="NSOperation和GCD很类似">
 <meta property="og:type" content="article">
 <meta property="og:title" content="多线程基础03 NSOperation">
 <meta property="og:url" content="http://yoursite.com/2014/07/07/多线程（三）/index.html">
 <meta property="og:site_name" content="Macro的技术博客">
-<meta property="og:description" content="NSOperation和GCD很类似
-
-NSOperation的作用
-配合使用NSOperation 和 NSOperationQueue也能实现多线程编程
-
-NSOperation和NSOperationQueue实现多线程的具体步骤
-现将需要执行的操作封住到一个NSOperation对象中
-然后将NSoperation对象添加到NSOperationQueue中
-系统会自动将NSOpera">
-<meta property="og:updated_time" content="2016-03-25T09:55:31.000Z">
+<meta property="og:description" content="NSOperation和GCD很类似">
+<meta property="og:updated_time" content="2016-05-12T10:58:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="多线程基础03 NSOperation">
-<meta name="twitter:description" content="NSOperation和GCD很类似
-
-NSOperation的作用
-配合使用NSOperation 和 NSOperationQueue也能实现多线程编程
-
-NSOperation和NSOperationQueue实现多线程的具体步骤
-现将需要执行的操作封住到一个NSOperation对象中
-然后将NSoperation对象添加到NSOperationQueue中
-系统会自动将NSOpera">
+<meta name="twitter:description" content="NSOperation和GCD很类似">
 
 
 
@@ -315,11 +291,7 @@ NSOperation和NSOperationQueue实现多线程的具体步骤
       
 
       
-        <a id="more"></a>
-<blockquote>
-<p>NSOperation和GCD很类似</p>
-</blockquote>
-<h3 id="NSOperation的作用"><a href="#NSOperation的作用" class="headerlink" title="NSOperation的作用"></a>NSOperation的作用</h3><ul>
+        <h3 id="NSOperation的作用"><a href="#NSOperation的作用" class="headerlink" title="NSOperation的作用"></a>NSOperation的作用</h3><ul>
 <li>配合使用NSOperation 和 NSOperationQueue也能实现多线程编程</li>
 </ul>
 <h3 id="NSOperation和NSOperationQueue实现多线程的具体步骤"><a href="#NSOperation和NSOperationQueue实现多线程的具体步骤" class="headerlink" title="NSOperation和NSOperationQueue实现多线程的具体步骤"></a>NSOperation和NSOperationQueue实现多线程的具体步骤</h3><ul>
@@ -355,13 +327,17 @@ NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
 <li>-(void)addOperation:(NSOperation *)op;</li>
 <li>-(void)addOperationWithBlock:(void(^)(void))block;</li>
 </ul>
-<h5 id="上代码"><a href="#上代码" class="headerlink" title="上代码"></a>上代码</h5><p>情景一 、封装一个NSOperation操作, 直接调用start方法,</p>
+<h5 id="上代码"><a href="#上代码" class="headerlink" title="上代码"></a>上代码</h5><blockquote>
+<p>情景一 、封装一个NSOperation操作, 直接调用start方法,</p>
+</blockquote>
 <p>分析: 主线程 – 同步执行 – 不开启子线程</p>
 <pre><code>NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
     // 要执行的任务或操作
 }];
 [operation start];
-</code></pre><p>情景二 、封装一个NSOperation操作,往里添加多个block任务, </p>
+</code></pre><blockquote>
+<p>情景二 、封装一个NSOperation操作,往里添加多个block任务, </p>
+</blockquote>
 <p>分析1: 第一个操作 : 主线程 – 异步执行 – 不开启子线程 </p>
 <p>分析2: 后添加的操作 : 子线程 – 异步执行 – 开启子线程  </p>
 <pre><code>NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
