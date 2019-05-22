@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="单例,iOS基础," />
+  <meta name="keywords" content="Two Pointer,双指针程," />
 
 
 
@@ -57,24 +57,16 @@
 
 
 
-<meta name="description" content="数学与逻辑学中，singleton定义为“有且仅有一个元素的集合”。单例模式最初的定义出现于《设计模式》（艾迪生维斯理, 1994）：“保证一个类仅有一个实例，并提供一个访问它的全局访问点。”
-
-写在前面的话一开始我并不了解单例模式的应用场景。只是知道有这么一种设计模式，怎么去实现它。但是随着使用频率的上升。您就能体会到单例模式的好处，简单的说—-单例模式就是保证这个单例类的实例化的对象只有一份">
+<meta name="description" content="给定一个排序数组，你需要在**原地**删除重复出现的元素，使得每个元素只出现一次，返。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="单例模式">
-<meta property="og:url" content="http://yoursite.com/2014/06/05/单例模式/index.html">
+<meta property="og:title" content="Leetcode 题解|26. 删除排序数组中的重复项">
+<meta property="og:url" content="http://yoursite.com/2019/05/22/26删除数组中重复项目/index.html">
 <meta property="og:site_name" content="Macro的技术博客">
-<meta property="og:description" content="数学与逻辑学中，singleton定义为“有且仅有一个元素的集合”。单例模式最初的定义出现于《设计模式》（艾迪生维斯理, 1994）：“保证一个类仅有一个实例，并提供一个访问它的全局访问点。”
-
-写在前面的话一开始我并不了解单例模式的应用场景。只是知道有这么一种设计模式，怎么去实现它。但是随着使用频率的上升。您就能体会到单例模式的好处，简单的说—-单例模式就是保证这个单例类的实例化的对象只有一份">
-<meta property="og:image" content="http://ac-qmq0qkq0.clouddn.com/b603f67c96dfc805.png">
-<meta property="og:updated_time" content="2016-03-25T10:00:27.000Z">
+<meta property="og:description" content="给定一个排序数组，你需要在**原地**删除重复出现的元素，使得每个元素只出现一次，返。">
+<meta property="og:updated_time" content="2019-05-22T01:54:33.992Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="单例模式">
-<meta name="twitter:description" content="数学与逻辑学中，singleton定义为“有且仅有一个元素的集合”。单例模式最初的定义出现于《设计模式》（艾迪生维斯理, 1994）：“保证一个类仅有一个实例，并提供一个访问它的全局访问点。”
-
-写在前面的话一开始我并不了解单例模式的应用场景。只是知道有这么一种设计模式，怎么去实现它。但是随着使用频率的上升。您就能体会到单例模式的好处，简单的说—-单例模式就是保证这个单例类的实例化的对象只有一份">
-<meta name="twitter:image" content="http://ac-qmq0qkq0.clouddn.com/b603f67c96dfc805.png">
+<meta name="twitter:title" content="Leetcode 题解|26. 删除排序数组中的重复项">
+<meta name="twitter:description" content="给定一个排序数组，你需要在**原地**删除重复出现的元素，使得每个元素只出现一次，返。">
 
 
 
@@ -92,7 +84,7 @@
   };
 </script>
 
-  <title> 单例模式 | Macro的技术博客 </title>
+  <title> Leetcode 题解|26. 删除排序数组中的重复项 | Macro的技术博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -234,7 +226,7 @@
             
             
               
-                单例模式
+                Leetcode 题解|26. 删除排序数组中的重复项
               
             
           </h1>
@@ -246,8 +238,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-06-05T19:13:20+08:00" content="2014-06-05">
-              2014-06-05
+            <time itemprop="dateCreated" datetime="2019-05-22T02:00:00+08:00" content="2019-05-22">
+              2019-05-22
             </time>
           </span>
 
@@ -260,8 +252,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/单例模式相关/" itemprop="url" rel="index">
-                    <span itemprop="name">单例模式相关</span>
+                  <a href="/categories/Leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">Leetcode</span>
                   </a>
                 </span>
 
@@ -276,8 +268,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2014/06/05/单例模式/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/06/05/单例模式/" itemprop="commentsCount"></span>
+                <a href="/2019/05/22/26删除数组中重复项目/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/05/22/26删除数组中重复项目/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -299,156 +291,101 @@
       
 
       
-        <blockquote>
-<p>数学与逻辑学中，singleton定义为“有且仅有一个元素的集合”。<br>单例模式最初的定义出现于《设计模式》（艾迪生维斯理, 1994）：“保证一个类仅有一个实例，并提供一个访问它的全局访问点。”</p>
-</blockquote>
-<h3 id="写在前面的话"><a href="#写在前面的话" class="headerlink" title="写在前面的话"></a>写在前面的话</h3><p>一开始我并不了解单例模式的应用场景。只是知道有这么一种设计模式，怎么去实现它。但是随着使用频率的上升。您就能体会到单例模式的好处，简单的说—-单例模式就是保证这个单例类的实例化的对象只有一份，不管怎么多次实例化对象，他得对象都是同一个。</p>
-<h3 id="一步步实现iOS中单例的写法"><a href="#一步步实现iOS中单例的写法" class="headerlink" title="一步步实现iOS中单例的写法"></a>一步步实现iOS中单例的写法</h3><p>1 集成NSObject 实现一个单例类, 实现一个类方法。让这个方法返回的实例唯一。</p>
-<pre><code>// 定义一个实例对象
-id _mySingleton;
-+ (instancetype)shareSingleton {
-// 如果不为空直接返回
-    if (_mySingleton == nil) {
-    _mySingleton = [[self alloc] init];
-    }
-    return _mySingleton;
-}
-</code></pre><p>如下图所示 : 不论调用多少次内存地址都一样。保证单例类的对象的唯一</p>
-<p><img src="http://ac-qmq0qkq0.clouddn.com/b603f67c96dfc805.png" alt=""></p>
-<p>2 我们还得考虑多个线程 同时实例化的时候 所以需要加线程锁 且在最外面加一层判断</p>
-<pre><code>// 定义一个实例对象
-id _mySingleton;
-+ (instancetype)shareSingleton {
+        <h3 id="题目："><a href="#题目：" class="headerlink" title="题目："></a>题目：</h3><p><a href="https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/" target="_blank" rel="external">26. 删除排序数组中的重复项 -&gt; Link</a></p>
+<p>给定一个排序数组，你需要在<strong><a href="http://baike.baidu.com/item/%E5%8E%9F%E5%9C%B0%E7%AE%97%E6%B3%95" target="_blank" rel="external">原地</a></strong>删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。</p>
+<p>不要使用额外的数组空间，你必须在<strong><a href="https://baike.baidu.com/item/%E5%8E%9F%E5%9C%B0%E7%AE%97%E6%B3%95" target="_blank" rel="external">原地</a>修改输入数组</strong>并在使用 O(1) 额外空间的条件下完成。</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>给定数组 nums = [1,1,2], 
 
-    if (_mySingleton == nil) {// 防止多线程重复加锁
-        @synchronized(self) { // 加线程锁
-            if (_mySingleton == nil) { // 防止重复实例化
-            _mySingleton = [[self alloc] init];
+函数应该返回新的长度 2, 并且原数组 nums 的前两个元素被修改为 1, 2。 
+
+你不需要考虑数组中超出新长度后面的元素。
+</code></pre><p><strong>示例 2:</strong></p>
+<pre><code>给定 nums = [0,0,1,1,1,2,2,3,3,4],
+
+函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。
+
+你不需要考虑数组中超出新长度后面的元素。
+</code></pre><p><strong>说明:</strong></p>
+<p>为什么返回数值是整数，但输出的答案是数组呢?</p>
+<p>请注意，输入数组是以<strong>“引用”</strong>方式传递的，这意味着在函数里修改输入数组对于调用者是可见的。</p>
+<p>你可以想象内部操作如下:</p>
+<pre><code>// nums 是以“引用”方式传递的。也就是说，不对实参做任何拷贝
+int len = removeDuplicates(nums);
+
+// 在函数里修改输入数组对于调用者是可见的。
+// 根据你的函数返回的长度, 它会打印出数组中该长度范围内的所有元素。
+for (int i = 0; i &lt; len; i++) {
+    print(nums[i]);
+}
+</code></pre><h3 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a><strong>题目分析</strong></h3><hr>
+<p>本题中涉及到了<strong>原地</strong>的感念，是一种使用小的，固定数量的额外之空间来转换资料的算法。当算法执行时，<strong>输入的资料通常会被要输出的部份覆盖掉</strong>。</p>
+<p>如果不注意题干的话，这个题很容易可以使用Set或者Hash来去重。但是使用Set和Hash都会开辟新的内存空间。增加空间复杂度，这里可以用到双指针法。</p>
+<ol>
+<li>首先判断传入数组不为空且长度大于一；</li>
+<li>定义新的数组的长度newLength，从0开始，慢指针；</li>
+<li>遍历数组,定义快指针i；</li>
+<li>当num[i] == num[newLength]，慢指针newLength不变，快指针i+1。跳过重复项。</li>
+<li>当num[i] != num[newLength], 慢指针newLength+1，快指针i+1，nums[newLength] = nums[i]。</li>
+<li>重复相同过程直到循环结束。</li>
+</ol>
+<p><strong>复杂度分析</strong></p>
+<ul>
+<li>时间复杂度：<strong>O(n)</strong>， 假设数组总共有 <strong><em>n</em></strong> 个元素，i 和 j 至少遍历 <strong>2n</strong> 步。</li>
+<li>空间复杂度：<strong>O(1)</strong>。</li>
+</ul>
+<p><strong>Java</strong></p>
+<pre><code>class Solution {
+    public int removeDuplicates(int[] nums) {
+
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+
+        int newLength = 1;
+
+        for (int i = 1; i&lt;nums.length; i++) {
+
+            if (nums[i] != nums[i-1]) {
+                nums[newLength++] = nums[i];
             }
         }
+        return newLength;    
     }
-    return _mySingleton;
 }
-</code></pre><p>3 为了保证 全局对象 _mySingleton的唯一性 加static修饰</p>
-<p>// static 修饰全局变量 全局变量的作用域只在当前类<br><code>static id _mySingleton;</code></p>
-<p>4 但是当使用copy 或 alloc 实例化对象的时候就会发生对象地址改变，实例化对象不唯一现象，解决办法就是重写allocWithZone 和 copyWithZone<code>注意这里必须要实现&lt;NSCopying&gt;协议才能打出来</code> 一下就是完整版的单例类实现</p>
-<pre><code>// 定义一个实例对象
+</code></pre><p><strong>Swift</strong></p>
+<pre><code>func removeDuplicates(_ nums: inout [Int]) -&gt; Int {
+        guard nums.count &gt; 0 else {
+            return 0
+        }
+        var newLength = 1;
+        for idx in 1 ..&lt; nums.count {
 
-static id _mySingleton;
-+ (instancetype)shareSingleton {
-
-    if (_mySingleton == nil) {// 防止多线程重复加锁
-        @synchronized(self) { // 加线程锁
-            if (_mySingleton == nil) { // 防止重复实例化
-                _mySingleton = [[self alloc] init];
+            if nums[idx] != nums[idx - 1] {
+                nums[newLength] = nums[idx]
+                newLength += 1
             }
         }
-    }
-    return _mySingleton;
+        return newLength
 }
+</code></pre><p><strong>JavaScript</strong></p>
+<pre><code>var removeDuplicates = function(nums) {
 
-// 重写allocWithZone 调用父类的方法
-+ (instancetype)allocWithZone:(struct _NSZone *)zone {
-    if (_mySingleton == nil) {
-        @synchronized(self) {
-            if (_mySingleton == nil) {
-                _mySingleton = [super allocWithZone:zone];
-            }
+    if (nums === &apos;undefined&apos; || nums.length === 0) {
+        return 0
+    }
+    var i = 1;
+    for (var j = 1; j &lt; nums.length; j++) {
+
+        if (nums[j] != nums[j - 1]) {
+            nums[i] = nums[j];
+            i++;
         }
+
     }
-    return _mySingleton;
-}
-// 重写copyWithZone
-- (id)copyWithZone:(NSZone *)zone {
-    return _mySingleton;
-}
-</code></pre><h3 id="懒汉式单例和饿汉式单例–-推荐大家使用懒汉式"><a href="#懒汉式单例和饿汉式单例–-推荐大家使用懒汉式" class="headerlink" title="懒汉式单例和饿汉式单例– 推荐大家使用懒汉式"></a>懒汉式单例和饿汉式单例– 推荐大家使用懒汉式</h3><p>上面我们提到这种实现方式就是懒汉式 用到的时候加载</p>
-<p>饿汉式实现方式主要思路是程序加载到内存时候进行创建</p>
-<pre><code>// 定义一个实例对象
-static id _mySingleton;
+    return i;
 
-+ (void)load {
-    _mySingleton = [[self alloc] init];
-}
-
-+ (instancetype)shareSingleton {
-    return _mySingleton;
-}
-
-+ (instancetype)allocWithZone:(struct _NSZone *)zone {
-    if (_mySingleton == nil) {
-        _mySingleton = [super allocWithZone:zone];
-    }
-    return _mySingleton;
-}
-
-- (id)copyWithZone:(NSZone *)zone {
-    return _mySingleton;
-}
-</code></pre><h3 id="MRC实现单例的时候防止对象被释放重写一下三个方法"><a href="#MRC实现单例的时候防止对象被释放重写一下三个方法" class="headerlink" title="MRC实现单例的时候防止对象被释放重写一下三个方法"></a>MRC实现单例的时候防止对象被释放重写一下三个方法</h3><pre><code>- (oneway void)release {
-// 什么也不写
-}
-
-- (id)retain {
-    return self;
-}    
-
-- (NSUInteger)retainCount {
-    return 1;
-}
-</code></pre><h3 id="用GCD得方式实现单例类"><a href="#用GCD得方式实现单例类" class="headerlink" title="用GCD得方式实现单例类"></a>用GCD得方式实现单例类</h3><pre><code>// 定义一个实例对象
-static id _mySingleton;
-+ (instancetype)shareSingleton {
-
-    static dispatch_once_t onceToken;
-    dispatch_once(&amp;onceToken, ^{
-        _mySingleton = [[self alloc] init];
-    });
-
-    return _mySingleton;
-}
-
-// 重写allocWithZone 调用父类的方法
-+ (instancetype)allocWithZone:(struct _NSZone *)zone {
-
-    static dispatch_once_t onceToken;
-    dispatch_once(&amp;onceToken, ^{
-        _mySingleton = [super allocWithZone:zone];
-    });
-
-    return _mySingleton;
-}
-
-// 重写copyWithZone
-- (id)copyWithZone:(NSZone *)zone {
-    return _mySingleton;
-}
-</code></pre><h3 id="用宏实现快捷单例类"><a href="#用宏实现快捷单例类" class="headerlink" title="用宏实现快捷单例类"></a>用宏实现快捷单例类</h3><pre><code>#define Single(name) \
-\
-static id _my##name;\
-+ (instancetype)share##name {\
-\
-static dispatch_once_t onceToken;\
-dispatch_once(&amp;onceToken, ^{\
-_my##name = [[self alloc] init];\
-});\
-\
-return _my##name;\
-}\
-\
-+ (instancetype)allocWithZone:(struct _NSZone *)zone {\
-\
-static dispatch_once_t onceToken;\
-dispatch_once(&amp;onceToken, ^{\
-_my##name = [super allocWithZone:zone];\
-});\
-\
-return _my##name;\
-}\
-\
-- (id)copyWithZone:(NSZone *)zone {\
-return _my##name;\
-}
+};
 </code></pre>
       
     </div>
@@ -463,9 +400,7 @@ return _my##name;\
       
         <div class="post-tags">
           
-            <a href="/tags/单例/" rel="tag">#单例</a>
-          
-            <a href="/tags/iOS基础/" rel="tag">#iOS基础</a>
+            <a href="/tags/Two-Pointer-双指针程/" rel="tag">#Two Pointer,双指针程</a>
           
         </div>
       
@@ -474,13 +409,13 @@ return _my##name;\
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2019/05/22/13罗马数字转整数/" rel="next" title="Leetcode 题解|13. 罗马数字转整数">
+                <i class="fa fa-chevron-left"></i> Leetcode 题解|13. 罗马数字转整数
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2014/07/04/多线程（一）/" rel="prev" title="多线程基础01 概念和NSThread">
-                多线程基础01 概念和NSThread <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -605,7 +540,7 @@ return _my##name;\
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#写在前面的话"><span class="nav-number">1.</span> <span class="nav-text">写在前面的话</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一步步实现iOS中单例的写法"><span class="nav-number">2.</span> <span class="nav-text">一步步实现iOS中单例的写法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#懒汉式单例和饿汉式单例–-推荐大家使用懒汉式"><span class="nav-number">3.</span> <span class="nav-text">懒汉式单例和饿汉式单例– 推荐大家使用懒汉式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MRC实现单例的时候防止对象被释放重写一下三个方法"><span class="nav-number">4.</span> <span class="nav-text">MRC实现单例的时候防止对象被释放重写一下三个方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用GCD得方式实现单例类"><span class="nav-number">5.</span> <span class="nav-text">用GCD得方式实现单例类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用宏实现快捷单例类"><span class="nav-number">6.</span> <span class="nav-text">用宏实现快捷单例类</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目："><span class="nav-number">1.</span> <span class="nav-text">题目：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题目分析"><span class="nav-number">2.</span> <span class="nav-text">题目分析</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
@@ -863,9 +798,9 @@ return _my##name;\
 
     <script type="text/javascript">
       var disqus_shortname = 'MacroRowe';
-      var disqus_identifier = '2014/06/05/单例模式/';
-      var disqus_title = '单例模式';
-      var disqus_url = 'http://yoursite.com/2014/06/05/单例模式/';
+      var disqus_identifier = '2019/05/22/26删除数组中重复项目/';
+      var disqus_title = 'Leetcode 题解|26. 删除排序数组中的重复项';
+      var disqus_url = 'http://yoursite.com/2019/05/22/26删除数组中重复项目/';
 
       function run_disqus_script(disqus_script){
         var dsq = document.createElement('script');
