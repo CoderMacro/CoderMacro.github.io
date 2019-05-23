@@ -1,0 +1,391 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="马可在搬砖">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.1">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="多线程,GCD" />
+
+
+    <meta name="description" content="
+1 基本概念1.1 进程的概念
+进程是指在系统正在运行的一个应用程序，每个进程是相对独立
+  eg: 当我们启动QQ，那么就会开启一个进程
+
+
+1.2 线程的概念
+每个进程中至少要有一条线程。..." />
+
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+
+    <!--Title-->
+
+
+<title>多线程基础01 概念和NSThread | 马可在搬砖</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="马可在搬砖" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7.css">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0.css">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash.css">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header"  style="background-image:url(https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2582531702,3482642004&amp;fm=26&amp;gp=0.jpg)"  >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title='Macro'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> 在码代码的路上走到黑 </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">马可在搬砖</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/算法/"><i class="fa "></i>算法</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/iOS/"><i class="fa "></i>iOS</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Android/"><i class="fa "></i>Android</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Web前端/"><i class="fa "></i>Web前端</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="多线程基础01 概念和NSThread">
+            
+	            多线程基础01 概念和NSThread
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/iOS/">iOS</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/GCD/">GCD</a> <a class="tag-link" href="/tags/多线程/">多线程</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2015/08/04</span>
+        </span>
+        
+    
+</div>
+            
+            
+            <p class="fa fa-exclamation-triangle warning">
+                本文于<strong>1388</strong>天之前发表，文中内容可能已经过时。
+            </p>
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <hr>
+<h2 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1 基本概念"></a>1 基本概念</h2><h4 id="1-1-进程的概念"><a href="#1-1-进程的概念" class="headerlink" title="1.1 进程的概念"></a>1.1 进程的概念</h4><ul>
+<li><p>进程是指在系统正在运行的一个应用程序，每个进程是相对独立</p>
+<p>  eg: 当我们启动QQ，那么就会开启一个进程</p>
+</li>
+</ul>
+<h4 id="1-2-线程的概念"><a href="#1-2-线程的概念" class="headerlink" title="1.2 线程的概念"></a>1.2 线程的概念</h4><ul>
+<li>每个进程中至少要有一条线程。（一个程序的所有任务都是在线程中执行的）</li>
+<li>一个线程中任务的执行是<code>串行的</code></li>
+</ul>
+<h4 id="1-3-多线程的概念"><a href="#1-3-多线程的概念" class="headerlink" title="1.3 多线程的概念"></a>1.3 多线程的概念</h4><ul>
+<li>一个进程中可以开多条线程，每条线程可以并行（同时）执行<ul>
+<li>主线程 : 自动创建的，默认的 又叫UI线程</li>
+<li>子线程 : 又叫后台线程</li>
+</ul>
+</li>
+</ul>
+<h6 id="多线程原理"><a href="#多线程原理" class="headerlink" title="多线程原理"></a>多线程原理</h6><ul>
+<li>CPU同一时间只能有一条线程在工作，其实是CPU快速的在多条线程之间调度（切换）；调度频率快，就形成了多线程同时执行的“假象”。所以移动端不建议开太多线程一般在5条以内</li>
+</ul>
+<h6 id="多线程优缺点"><a href="#多线程优缺点" class="headerlink" title="多线程优缺点"></a>多线程优缺点</h6><ul>
+<li>优点：能适当提高执行效率、资源（CPU，内存）利用率</li>
+<li>缺点：开启线程占用内存，开销大，性能降低</li>
+</ul>
+<h6 id="多线程在iOS开发中的应用"><a href="#多线程在iOS开发中的应用" class="headerlink" title="多线程在iOS开发中的应用"></a>多线程在iOS开发中的应用</h6><ul>
+<li><p>默认有一条主线程（UI线程）有且只有一条。作用：负责显示和刷新界面，处理UI事件</p>
+<blockquote>
+<p>注意：不要把耗时操作放在主线程中</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="2-iOS中多线程的实现方案"><a href="#2-iOS中多线程的实现方案" class="headerlink" title="2 iOS中多线程的实现方案"></a>2 iOS中多线程的实现方案</h2><p><img src="https://upload-images.jianshu.io/upload_images/289532-ef0a41ce20307a16.png" alt=""></p>
+<h2 id="3-pthread的例子"><a href="#3-pthread的例子" class="headerlink" title="3 pthread的例子"></a>3 pthread的例子</h2><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 创建一个线程标识符</span></span><br><span class="line">    pthread_t myrestrict;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 1param 线程标识符变量的地址, 2param 写NULL 3param 执行的的函数 4param NULL</span></span><br><span class="line">    pthread_create(&amp;myrestrict, <span class="literal">NULL</span>, run, <span class="literal">NULL</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义线程的函数</span></span><br><span class="line"><span class="keyword">void</span> *run(<span class="keyword">void</span> *data) &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, [<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="4-NSThread的基本用法"><a href="#4-NSThread的基本用法" class="headerlink" title="4 NSThread的基本用法"></a>4 NSThread的基本用法</h2><h4 id="创建方式1-创建后需启动"><a href="#创建方式1-创建后需启动" class="headerlink" title="创建方式1 创建后需启动"></a>创建方式1 创建后需启动</h4><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建线程</span></span><br><span class="line"><span class="built_in">NSThread</span> *thread = [[<span class="built_in">NSThread</span> alloc] initWithTarget:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(download) object:<span class="literal">nil</span>];</span><br><span class="line">		</span><br><span class="line"><span class="comment">// 启动线程</span></span><br><span class="line">[thread start];</span><br></pre></td></tr></table></figure>
+<h4 id="创建方式2-创建后自动启动"><a href="#创建方式2-创建后自动启动" class="headerlink" title="创建方式2  创建后自动启动"></a>创建方式2  创建后自动启动</h4><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建后直接启动  传一个字符串</span></span><br><span class="line">[NSThread <span class="string">detachNewThreadSelector:</span><span class="meta">@selector</span>(<span class="string">download2:</span>) <span class="string">toTarget:</span>self <span class="string">withObject:</span>@<span class="string">"param"</span>];</span><br></pre></td></tr></table></figure>
+<h4 id="创建方式3-隐式启动"><a href="#创建方式3-隐式启动" class="headerlink" title="创建方式3  隐式启动"></a>创建方式3  隐式启动</h4><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 开启子线程</span></span><br><span class="line">[self <span class="string">performSelectorInBackground:</span><span class="meta">@selector</span>(download) <span class="string">withObject:</span>nil];</span><br><span class="line">	    </span><br><span class="line"><span class="comment">// 开启主线程</span></span><br><span class="line">[self <span class="string">performSelector:</span><span class="meta">@selector</span>(download) <span class="string">withObject:</span>nil];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 开启传入的线程</span></span><br><span class="line">[self <span class="string">performSelector:</span><span class="meta">@selector</span>(download) <span class="string">onThread:</span>[NSThread currentThread] <span class="string">withObject:</span>nil <span class="string">waitUntilDone:</span>NO];</span><br></pre></td></tr></table></figure>
+<h4 id="其它常用方法"><a href="#其它常用方法" class="headerlink" title="其它常用方法"></a>其它常用方法</h4><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取当前线程</span></span><br><span class="line"><span class="built_in">NSThread</span> *current = [<span class="built_in">NSThread</span> currentThread];</span><br><span class="line"><span class="comment">// 获取主线程</span></span><br><span class="line"><span class="built_in">NSThread</span> *main = [<span class="built_in">NSThread</span> mainThread];</span><br><span class="line"><span class="comment">// 判断是否主线程-类方法</span></span><br><span class="line"><span class="built_in">BOOL</span> isMain = [<span class="built_in">NSThread</span> isMainThread];</span><br><span class="line"><span class="comment">// 判断是否主线程-对象方法</span></span><br><span class="line"><span class="built_in">BOOL</span> isMain2 = [main isMainThread];</span><br><span class="line"><span class="comment">// 给线程起名字</span></span><br><span class="line">current.name = <span class="string">@"下载线程"</span>;</span><br><span class="line"><span class="comment">// 线程睡眠状态5秒</span></span><br><span class="line">[<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">5.0</span>];</span><br><span class="line"><span class="comment">// 线程睡眠从现在开始3秒以后的时间</span></span><br><span class="line">[<span class="built_in">NSThread</span> sleepUntilDate:[<span class="built_in">NSDate</span> dateWithTimeIntervalSinceNow:<span class="number">3</span>]];</span><br><span class="line"><span class="comment">// 线程退出 线程进入死亡状态</span></span><br><span class="line">[<span class="built_in">NSThread</span> exit];</span><br></pre></td></tr></table></figure>
+<h4 id="线程之间的通信"><a href="#线程之间的通信" class="headerlink" title="线程之间的通信"></a>线程之间的通信</h4><figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="keyword">self</span> performSelectorOnMainThread:@<span class="keyword">selector</span>(<span class="function"><span class="keyword">method</span>) <span class="title">withObject</span>:</span><span class="keyword">nil</span> waitUntilDone:YES];</span><br><span class="line">    </span><br><span class="line">[<span class="keyword">self</span> performSelector:@<span class="keyword">selector</span>(<span class="function"><span class="keyword">method</span>) <span class="title">onThread</span>:</span>[NSThread mainThread] withObject:<span class="keyword">nil</span> waitUntilDone:YES];</span><br></pre></td></tr></table></figure>
+<ul>
+<li>waitUntilDone: 是否等待执行完   performSelector:执行的方法  withObject: 传参数</li>
+</ul>
+<h2 id="5-线程安全"><a href="#5-线程安全" class="headerlink" title="5.线程安全"></a>5.线程安全</h2><ul>
+<li><p>线程安全</p>
+<ul>
+<li>概念 : 多个线程夺取同一个资源，访问一个变量</li>
+<li>解决方案 : 加锁–线程锁, 互斥锁 </li>
+<li><p>互斥锁的格式 : </p>
+<pre><code>@synchronized(self) { 
+    // 插入锁定代码 
+}
+</code></pre></li>
+<li><font color="red">注意 : 一份代码只能用一个锁, 多个锁无效</font><p></p></li>
+</ul>
+</li>
+<li><p>线程锁优缺点</p>
+<ul>
+<li>优点 : 能够有效防止因多线程抢夺资源造成的数据安全问题</li>
+<li>缺点 : 消耗大量CPU资源</li>
+</ul>
+</li>
+<li><p>线程同步</p>
+<ul>
+<li>多条线程在同一条线上执行（按顺序执行）</li>
+<li>互斥锁就运用了线程同步</li>
+</ul>
+</li>
+<li><p>原子属性和非原子属性</p>
+<ul>
+<li>atomic 会自动为setter方法加锁</li>
+<li>nonatomic 不会为setter方法  推荐使用这个</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-多线程状态示意图"><a href="#6-多线程状态示意图" class="headerlink" title="6.多线程状态示意图"></a>6.多线程状态示意图</h2><h5 id="在了解完线程安全后咱们再看看完整的线程状态示意图"><a href="#在了解完线程安全后咱们再看看完整的线程状态示意图" class="headerlink" title="在了解完线程安全后咱们再看看完整的线程状态示意图"></a>在了解完线程安全后咱们再看看完整的线程状态示意图</h5><p><img src="http://ac-qmq0qkq0.clouddn.com/7decedec5de84f75.png" alt=""></p>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">Snippet</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2015/08/05/多线程2/" class="pre-post btn btn-default" title='多线程基础02 GCD'>
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">多线程基础02 GCD</span>
+        </a>
+    
+    
+        <a href="/2014/08/08/Git技术栈/" class="next-post btn btn-default" title='【Git 技术栈】'>
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">【Git 技术栈】</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+            appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+            placeholder: '说点什么吧',
+            notify: false,
+            verify: false,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: 'zh-CN'.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-基本概念"><span class="toc-text">1 基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-进程的概念"><span class="toc-text">1.1 进程的概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-线程的概念"><span class="toc-text">1.2 线程的概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-多线程的概念"><span class="toc-text">1.3 多线程的概念</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#多线程原理"><span class="toc-text">多线程原理</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#多线程优缺点"><span class="toc-text">多线程优缺点</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#多线程在iOS开发中的应用"><span class="toc-text">多线程在iOS开发中的应用</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-iOS中多线程的实现方案"><span class="toc-text">2 iOS中多线程的实现方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-pthread的例子"><span class="toc-text">3 pthread的例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-NSThread的基本用法"><span class="toc-text">4 NSThread的基本用法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#创建方式1-创建后需启动"><span class="toc-text">创建方式1 创建后需启动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建方式2-创建后自动启动"><span class="toc-text">创建方式2  创建后自动启动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建方式3-隐式启动"><span class="toc-text">创建方式3  隐式启动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其它常用方法"><span class="toc-text">其它常用方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#线程之间的通信"><span class="toc-text">线程之间的通信</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-线程安全"><span class="toc-text">5.线程安全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-多线程状态示意图"><span class="toc-text">6.多线程状态示意图</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#在了解完线程安全后咱们再看看完整的线程状态示意图"><span class="toc-text">在了解完线程安全后咱们再看看完整的线程状态示意图</span></a></li></ol></li></ol></li></ol></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2014
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script src="/js/app.js?rev=@@hash.js"></script>
+
+</body>
+</html>

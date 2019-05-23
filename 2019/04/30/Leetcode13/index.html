@@ -1,0 +1,414 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="马可在搬砖">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.1">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="字符串,数学,java" />
+
+
+    <meta name="description" content="题目
+罗马数字包含以下七种字符: I， V， X， L，C，D 和 M。
+字符          数值
+I             1
+V             5
+X            ..." />
+
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+
+    <!--Title-->
+
+
+<title>Leetcode 题解|13. 罗马数字转整数 | 马可在搬砖</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="马可在搬砖" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7.css">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0.css">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash.css">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header"  style="background-image:url(https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2582531702,3482642004&amp;fm=26&amp;gp=0.jpg)"  >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title='Macro'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> 在码代码的路上走到黑 </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">马可在搬砖</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/算法/"><i class="fa "></i>算法</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/iOS/"><i class="fa "></i>iOS</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Android/"><i class="fa "></i>Android</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Web前端/"><i class="fa "></i>Web前端</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="Leetcode 题解|13. 罗马数字转整数">
+            
+	            Leetcode 题解|13. 罗马数字转整数
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/算法/">算法</a> <a class="category-link" href="/categories/算法/Leetcode/">Leetcode</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/java/">java</a> <a class="tag-link" href="/tags/字符串/">字符串</a> <a class="tag-link" href="/tags/数学/">数学</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/04/30</span>
+        </span>
+        
+    
+</div>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><hr>
+<p>罗马数字包含以下七种字符: <code>I</code>， <code>V</code>， <code>X</code>， <code>L</code>，<code>C</code>，<code>D</code> 和 <code>M</code>。</p>
+<pre><code>字符          数值
+I             1
+V             5
+X             10
+L             50
+C             100
+D             500
+M             1000
+</code></pre><p>例如， 罗马数字 2 写做 <code>II</code> ，即为两个并列的 1。12 写做 <code>XII</code> ，即为 <code>X</code> + <code>II</code> 。 27 写做 <code>XXVII</code>, 即为 <code>XX</code> + <code>V</code> + <code>II</code> 。</p>
+<p>通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如 4 不写做 <code>IIII</code>，而是 <code>IV</code>。数字 1 在数字 5 的左边，所表示的数等于大数 5 减小数 1 得到的数值 4 。同样地，数字 9 表示为 <code>IX</code>。这个特殊的规则只适用于以下六种情况：</p>
+<ul>
+<li><code>I</code> 可以放在 <code>V</code> (5) 和 <code>X</code> (10) 的左边，来表示 4 和 9。</li>
+<li><code>X</code> 可以放在 <code>L</code> (50) 和 <code>C</code> (100) 的左边，来表示 40 和 90。</li>
+<li><code>C</code> 可以放在 <code>D</code> (500) 和 <code>M</code> (1000) 的左边，来表示 400 和 900。</li>
+</ul>
+<p>给定一个罗马数字，将其转换成整数。输入确保在 1 到 3999 的范围内。</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>输入: &quot;III&quot;
+输出: 3
+</code></pre><p><strong>示例 2:</strong></p>
+<pre><code>输入: &quot;IV&quot;
+输出: 4
+</code></pre><p><strong>示例 3:</strong></p>
+<pre><code>输入: &quot;IX&quot;
+输出: 9
+</code></pre><p><strong>示例 4:</strong></p>
+<pre><code>输入: &quot;LVIII&quot;
+输出: 58
+解释: L = 50, V= 5, III = 3.
+</code></pre><p><strong>示例 5:</strong></p>
+<pre><code>输入: &quot;MCMXCIV&quot;
+输出: 1994
+解释: M = 1000, CM = 900, XC = 90, IV = 4.
+</code></pre><p><code>罗马数字转整数</code> : <a href="https://leetcode-cn.com/problems/roman-to-integer/" target="_blank" rel="external">https://leetcode-cn.com/problems/roman-to-integer/</a></p>
+<p><code>Roman to Integer</code> : <a href="https://leetcode-cn.com/problems/roman-to-integer/" target="_blank" rel="external">https://leetcode.com/problems/roman-to-integer/</a></p>
+<h3 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h3><hr>
+<h3 id="一、暴力解法"><a href="#一、暴力解法" class="headerlink" title="一、暴力解法"></a>一、暴力解法</h3><p>直接遍历字符串，获取每个字符所对应的int数字相加即可，对于题干中提到的六种特殊情况进行判断处理。</p>
+<ul>
+<li><code>IV</code> (4) 和 <code>IX</code> (9) 对比 <code>VI</code> (6) 和 <code>XI</code> (11)。 所以这总情况和最终值差-2</li>
+<li><code>XL</code> (40) 和 <code>XC</code> (90) 对比 <code>LX</code> (60) 和 <code>CX</code> (110)。所以这总情况和最终值差-20</li>
+<li><code>CD</code> (400) 和 <code>CM</code> (900)对比<code>DC</code> (600) 和 <code>MC</code> (1100)。所以这总情况和最终值差-200</li>
+</ul>
+<h3 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h3><pre><code>class Solution {
+    public static int romanToInt(String s) {
+
+      int sum = 0;
+      if (s.indexOf(&quot;IV&quot;) != -1 || s.indexOf(&quot;IX&quot;) != -1) {
+          sum -= 2;
+      }
+      if (s.indexOf(&quot;XL&quot;) != -1 || s.indexOf(&quot;XC&quot;) != -1) {
+          sum -= 20;
+      }
+      if (s.indexOf(&quot;CD&quot;) != -1 || s.indexOf(&quot;CM&quot;) != -1) {
+          sum -= 200;
+      }
+
+      for (int i = 0; i &lt; s.length(); i++) {
+        Character c = s.charAt(i);
+        if (c == &apos;I&apos;) {
+          sum += 1;
+        } else if (c == &apos;V&apos;) {
+          sum += 5;
+        } else if (c == &apos;X&apos;) {
+          sum += 10;
+        } else if (c == &apos;L&apos;) {
+          sum += 50;
+        } else if (c == &apos;C&apos;) {
+          sum += 100;
+        } else if (c == &apos;D&apos;) {
+          sum += 500;
+        } else if (c == &apos;M&apos;) {
+          sum += 1000;
+        }
+      }
+      return sum;
+   }
+}
+</code></pre><h3 id="二、哈希表解法"><a href="#二、哈希表解法" class="headerlink" title="二、哈希表解法"></a>二、哈希表解法</h3><p>创建一个Hash表，存入罗马和int对应关系。定义sum 和 last，last用于记录上一个位置字符代表的数字大小，当num &lt; last说明是题干六种特殊情况。这时候 sum需要减去num。整个遍历的顺序为反向遍历。</p>
+<pre><code>public int romanToInt(String s) {
+        HashMap&lt;Character, Integer&gt; map = new HashMap&lt;Character, Integer&gt;();
+        map.put(&apos;I&apos;, 1);
+    map.put(&apos;V&apos;, 5);
+    map.put(&apos;X&apos;, 10);
+    map.put(&apos;L&apos;, 50);
+    map.put(&apos;C&apos;, 100);
+    map.put(&apos;D&apos;, 500);
+    map.put(&apos;M&apos;, 1000);
+
+    int sum = 0;
+    int last = -1;
+    for (int i = 0; i &lt; s.length(); i++) {
+      int num = map.get(s.charAt(s.length() - 1 - i));
+      if (num &lt; last) {
+        sum -= num;
+      } else {
+        sum += num;
+      }
+      last = num;
+    }
+    return sum;
+  }
+</code></pre>
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">Snippet</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2019/05/02/Leetcode26/" class="pre-post btn btn-default" title='Leetcode 题解|26. 删除排序数组中的重复项'>
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">Leetcode 题解|26. 删除排序数组中的重复项</span>
+        </a>
+    
+    
+        <a href="/2019/04/09/Leetcode9/" class="next-post btn btn-default" title='Leetcode 题解|9. 回文数'>
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">Leetcode 题解|9. 回文数</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+            appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+            placeholder: '说点什么吧',
+            notify: false,
+            verify: false,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: 'zh-CN'.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#题目分析"><span class="toc-text">题目分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一、暴力解法"><span class="toc-text">一、暴力解法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java"><span class="toc-text">Java</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、哈希表解法"><span class="toc-text">二、哈希表解法</span></a></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2014
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script src="/js/app.js?rev=@@hash.js"></script>
+
+</body>
+</html>

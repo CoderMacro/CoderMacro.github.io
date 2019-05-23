@@ -1,0 +1,409 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="马可在搬砖">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.1">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="多线程,GCD" />
+
+
+    <meta name="description" content="   GCD全称 : Grand Central Dispatch  – 伟大的中枢调度器 
+
+
+CGD的优势: 多核并行运算提出解决方案，自动管理线程生命周期，自动利用更多的CPU内核
+
+1 ..." />
+
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+
+    <!--Title-->
+
+
+<title>多线程基础02 GCD | 马可在搬砖</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="马可在搬砖" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7.css">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0.css">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash.css">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header"  style="background-image:url(https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2582531702,3482642004&amp;fm=26&amp;gp=0.jpg)"  >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title='Macro'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> 在码代码的路上走到黑 </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">马可在搬砖</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/算法/"><i class="fa "></i>算法</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/iOS/"><i class="fa "></i>iOS</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Android/"><i class="fa "></i>Android</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Web前端/"><i class="fa "></i>Web前端</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="多线程基础02 GCD">
+            
+	            多线程基础02 GCD
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/iOS/">iOS</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/GCD/">GCD</a> <a class="tag-link" href="/tags/多线程/">多线程</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2015/08/05</span>
+        </span>
+        
+    
+</div>
+            
+            
+            <p class="fa fa-exclamation-triangle warning">
+                本文于<strong>1387</strong>天之前发表，文中内容可能已经过时。
+            </p>
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <p>   GCD全称 : Grand Central Dispatch  – <font color="red">伟大的中枢调度器</font> </p>
+<hr>
+<blockquote>
+<p>CGD的优势: 多核并行运算提出解决方案，自动管理线程生命周期，自动利用更多的CPU内核</p>
+</blockquote>
+<h3 id="1-两大核心概念"><a href="#1-两大核心概念" class="headerlink" title="1 两大核心概念"></a>1 两大核心概念</h3><ul>
+<li>任务 : 执行什么操作</li>
+<li><p>队列 : 用来存放任务</p>
+</li>
+<li><p>一般使用步骤: 定制任务，将任务添加到队列，GCD会自动将队列中得任务取出，放到对应的线程中执行;任务取出顺序，遵循FIFO，先进先出，后进后出，</p>
+</li>
+</ul>
+<h3 id="2-用来执行任务的两个函数"><a href="#2-用来执行任务的两个函数" class="headerlink" title="2 用来执行任务的两个函数"></a>2 用来执行任务的两个函数</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//同步执行</span></span><br><span class="line">dispatch_sync(<span class="keyword">dispatch_queue_t</span> <span class="built_in">queue</span>, ^(<span class="keyword">void</span>)block)</span><br><span class="line"></span><br><span class="line"><span class="comment">//异步执行</span></span><br><span class="line">dispatch_async(<span class="keyword">dispatch_queue_t</span> <span class="built_in">queue</span>, ^(<span class="keyword">void</span>)block)</span><br><span class="line">	* 参数 <span class="built_in">queue</span> 队列</span><br><span class="line">	* 参数 block 任务的代码块</span><br></pre></td></tr></table></figure>
+<ul>
+<li>两者的区别<ul>
+<li>同步 : 不开启新线程</li>
+<li>异步 : 会开启新线程</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-队列的类型"><a href="#3-队列的类型" class="headerlink" title="3 队列的类型"></a>3 队列的类型</h3><h4 id="GCD的队列分为两大类型"><a href="#GCD的队列分为两大类型" class="headerlink" title="GCD的队列分为两大类型"></a>GCD的队列分为两大类型</h4><p>并发队列 (Concurrent Dispatch Queue) : <font color="red">多个任务并发（同时）执行</font> (自动开启多个线程同时执行),只有在异步函数下有效</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">dispatch_queue_t</span> <span class="built_in">queue</span> = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">  参数<span class="number">1</span> : 队列优先级	 </span><br><span class="line">  参数<span class="number">2</span> : 默认 <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>串行队列 (Serial Dispatch Queue) : 一个任务执行完成再接着执行下一个</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">dispatch_queue_t</span> <span class="built_in">queue</span> = dispatch_queue_create(<span class="string">"C语言的字符串-队列标识"</span>, <span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="4-四种情况分析"><a href="#4-四种情况分析" class="headerlink" title="4 四种情况分析"></a>4 四种情况分析</h3><h5 id="1-异步执行-全局并发队列-添加5个任务"><a href="#1-异步执行-全局并发队列-添加5个任务" class="headerlink" title="1. 异步执行 全局并发队列 添加5个任务"></a>1. 异步执行 全局并发队列 添加5个任务</h5><ul>
+<li>分析 <font color="azalea">常用这种方式</font><ul>
+<li>会不会创建线程 : 会创建5条子线程</li>
+<li>任务的执行方式 : 并发执行</li>
+</ul>
+</li>
+</ul>
+<h5 id="2-异步执行-串行队列-添加5个任务"><a href="#2-异步执行-串行队列-添加5个任务" class="headerlink" title="2. 异步执行 串行队列 添加5个任务"></a>2. 异步执行 串行队列 添加5个任务</h5><ul>
+<li>分析 <font color="azalea">偶尔常用这种方式</font><ul>
+<li>会不会创建线程 : 会创建1条子线程（不论添加多少个任务都只开启一条）</li>
+<li>任务的执行方式 : 顺序执行</li>
+</ul>
+</li>
+</ul>
+<h5 id="3-同步执行-全局并发队列-添加5个任务"><a href="#3-同步执行-全局并发队列-添加5个任务" class="headerlink" title="3. 同步执行 全局并发队列 添加5个任务"></a>3. 同步执行 全局并发队列 添加5个任务</h5><ul>
+<li>分析 <font color="champagne">不常用</font><ul>
+<li>会不会创建线程 : 不会开启新的子线程</li>
+<li>任务的执行方式 : 顺序执行，（因为只有一条线程所以只能顺序执行）</li>
+</ul>
+</li>
+</ul>
+<h5 id="4-同步执行-串行队列-添加5个任务"><a href="#4-同步执行-串行队列-添加5个任务" class="headerlink" title="4. 同步执行 串行队列 添加5个任务"></a>4. 同步执行 串行队列 添加5个任务</h5><ul>
+<li>分析 <font color="champagne">不常用</font><ul>
+<li>会不会创建线程 : 不会开启新的子线程</li>
+<li>任务的执行方式 : 顺序执行</li>
+</ul>
+</li>
+</ul>
+<h5 id="5-特殊情况-–-异步执行-串行主队列-添加5个任务"><a href="#5-特殊情况-–-异步执行-串行主队列-添加5个任务" class="headerlink" title="5. 特殊情况 – 异步执行 串行主队列 添加5个任务"></a>5. 特殊情况 – 异步执行 串行主队列 添加5个任务</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取主队列  这个也是一个串行队列</span></span><br><span class="line"><span class="keyword">dispatch_queue_t</span> <span class="built_in">queue</span> = dispatch_get_main_queue();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>分析 <ul>
+<li>会不会创建线程 : 不会开启新的线程 因为主队列对应的线程就是主线程,主线程只能有一个</li>
+<li>任务的执行方式 : 顺序执行</li>
+</ul>
+</li>
+</ul>
+<h3 id="5-GCD线程之间的通信"><a href="#5-GCD线程之间的通信" class="headerlink" title="5 GCD线程之间的通信"></a>5 GCD线程之间的通信</h3><figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dispatch_async(<span class="name">dispatch_get_global_queue</span>(<span class="name">DISPATCH_QUEUE_PRIORITY_DEFAULT</span>, <span class="number">0</span>), ^&#123;</span><br><span class="line">	// 耗时操作</span><br><span class="line">	dispatch_async(<span class="name">dispatch_get_main_queue</span>(), ^&#123;</span><br><span class="line">	// 主线程刷新UI</span><br><span class="line">	&#125;)<span class="comment">;</span></span><br><span class="line">&#125;)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<h3 id="6-延迟执行"><a href="#6-延迟执行" class="headerlink" title="6 延迟执行"></a>6 延迟执行</h3><p>1 下面这种方式会卡住主线程</p>
+<pre><code>[NSThread sleepForTimeInterval:2];
+</code></pre><p>2 下面这种方式不会卡住主线程,但是不能改变延迟后代码执行的线程</p>
+<pre><code>[self performSelector:@selector(download:) withObject:@&quot;下载中&quot; afterDelay:2];
+</code></pre><p>3 这种GCD的方式，比较好，不卡住主线程，也能随意定制延迟后代码执行的线程</p>
+<pre><code>dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(&quot;时间&quot;* NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    // 延迟后要执行的代码
+});
+</code></pre><h3 id="7-一次执行"><a href="#7-一次执行" class="headerlink" title="7 一次执行"></a>7 一次执行</h3><p>一次性执行的代码主要用来创建单例模式</p>
+<pre><code>static dispatch_once_t onceToken;
+dispatch_once(&amp;onceToken, ^{
+    // 只执行一次的代码
+});
+</code></pre><h3 id="8-队列组"><a href="#8-队列组" class="headerlink" title="8 队列组"></a>8 队列组</h3><p>队列组的功能主要是，当多个任务需要同时执行，且所有任务都执行完毕后，还要触发执行别的任务的时候用到。</p>
+<pre><code>//获取队列组
+dispatch_group_t group = dispatch_group_create();
+
+//队列组添加异步执行任务
+dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+
+dispatch_group_async(group, queue, ^{
+// 任务1代码 
+});
+.
+添加多个任务
+.
+dispatch_group_async(group, queue, ^{
+// 任务n代码 
+});
+.
+dispatch_group_notify(group, queue, ^{
+// 所有任务执行完后唤醒需要执行的代码        
+});
+</code></pre>
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">Snippet</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2015/08/07/多线程3/" class="pre-post btn btn-default" title='多线程基础03 NSOperation'>
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">多线程基础03 NSOperation</span>
+        </a>
+    
+    
+        <a href="/2015/08/04/多线程1/" class="next-post btn btn-default" title='多线程基础01 概念和NSThread'>
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">多线程基础01 概念和NSThread</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+            appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+            placeholder: '说点什么吧',
+            notify: false,
+            verify: false,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: 'zh-CN'.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-两大核心概念"><span class="toc-text">1 两大核心概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-用来执行任务的两个函数"><span class="toc-text">2 用来执行任务的两个函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-队列的类型"><span class="toc-text">3 队列的类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#GCD的队列分为两大类型"><span class="toc-text">GCD的队列分为两大类型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-四种情况分析"><span class="toc-text">4 四种情况分析</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-异步执行-全局并发队列-添加5个任务"><span class="toc-text">1. 异步执行 全局并发队列 添加5个任务</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-异步执行-串行队列-添加5个任务"><span class="toc-text">2. 异步执行 串行队列 添加5个任务</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-同步执行-全局并发队列-添加5个任务"><span class="toc-text">3. 同步执行 全局并发队列 添加5个任务</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-同步执行-串行队列-添加5个任务"><span class="toc-text">4. 同步执行 串行队列 添加5个任务</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-特殊情况-–-异步执行-串行主队列-添加5个任务"><span class="toc-text">5. 特殊情况 – 异步执行 串行主队列 添加5个任务</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-GCD线程之间的通信"><span class="toc-text">5 GCD线程之间的通信</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-延迟执行"><span class="toc-text">6 延迟执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-一次执行"><span class="toc-text">7 一次执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-队列组"><span class="toc-text">8 队列组</span></a></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2014
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script src="/js/app.js?rev=@@hash.js"></script>
+
+</body>
+</html>

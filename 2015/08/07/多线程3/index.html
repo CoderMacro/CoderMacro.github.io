@@ -1,0 +1,429 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="马可在搬砖">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.1">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="多线程,GCD" />
+
+
+    <meta name="description" content="NSOperation的作用
+配合使用NSOperation 和 NSOperationQueue也能实现多线程编程
+
+NSOperation和NSOperationQueue实现多线程的具体步..." />
+
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+
+    <!--Title-->
+
+
+<title>多线程基础03 NSOperation | 马可在搬砖</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="马可在搬砖" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7.css">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0.css">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash.css">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header"  style="background-image:url(https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2582531702,3482642004&amp;fm=26&amp;gp=0.jpg)"  >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title='Macro'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> 在码代码的路上走到黑 </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">马可在搬砖</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/算法/"><i class="fa "></i>算法</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/iOS/"><i class="fa "></i>iOS</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Android/"><i class="fa "></i>Android</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Web前端/"><i class="fa "></i>Web前端</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="多线程基础03 NSOperation">
+            
+	            多线程基础03 NSOperation
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/iOS/">iOS</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/GCD/">GCD</a> <a class="tag-link" href="/tags/多线程/">多线程</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2015/08/07</span>
+        </span>
+        
+    
+</div>
+            
+            
+            <p class="fa fa-exclamation-triangle warning">
+                本文于<strong>1385</strong>天之前发表，文中内容可能已经过时。
+            </p>
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <h3 id="NSOperation的作用"><a href="#NSOperation的作用" class="headerlink" title="NSOperation的作用"></a>NSOperation的作用</h3><ul>
+<li>配合使用NSOperation 和 NSOperationQueue也能实现多线程编程</li>
+</ul>
+<h3 id="NSOperation和NSOperationQueue实现多线程的具体步骤"><a href="#NSOperation和NSOperationQueue实现多线程的具体步骤" class="headerlink" title="NSOperation和NSOperationQueue实现多线程的具体步骤"></a>NSOperation和NSOperationQueue实现多线程的具体步骤</h3><ul>
+<li>现将需要执行的操作封住到一个NSOperation对象中</li>
+<li>然后将NSoperation对象添加到NSOperationQueue中</li>
+<li>系统会自动将NSOperationQueue中的NSOperation取出来</li>
+<li>然后将NSOperation中封装的操作放到一个线程中执行</li>
+</ul>
+<h3 id="NSOperation是一个操作类它的的子类才有封装操作的能力"><a href="#NSOperation是一个操作类它的的子类才有封装操作的能力" class="headerlink" title="NSOperation是一个操作类它的的子类才有封装操作的能力"></a>NSOperation是一个操作类它的的子类才有封装操作的能力</h3><ol>
+<li>NSInvocationOperation</li>
+<li>NSBlockOperation</li>
+<li>自定义继承NSOperation的子类</li>
+</ol>
+<p>创建NSOperation 前两种种方式其实作用一样 只是一个Block 一个target调用 </p>
+<pre><code>NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(操作的方法) object:nil];
+
+NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+    // 要执行的任务或操作
+}];
+</code></pre><h4 id="队列的类型"><a href="#队列的类型" class="headerlink" title="队列的类型"></a>队列的类型</h4><ol>
+<li>主队列<ul>
+<li>[NSOperationQueue mainQueue];</li>
+<li>添加到”主队列”中的操作,都会放到主线程中执行</li>
+</ul>
+</li>
+<li>非主队列<ul>
+<li>[[NSOperationQueue alloc] init];</li>
+<li>添加到”非主队列”中的操作,都会放到子线程中执行</li>
+</ul>
+</li>
+</ol>
+<h4 id="队列添加任务"><a href="#队列添加任务" class="headerlink" title="队列添加任务"></a>队列添加任务</h4><ul>
+<li>-(void)addOperation:(NSOperation *)op;</li>
+<li>-(void)addOperationWithBlock:(void(^)(void))block;</li>
+</ul>
+<h5 id="上代码"><a href="#上代码" class="headerlink" title="上代码"></a>上代码</h5><blockquote>
+<p>情景一 、封装一个NSOperation操作, 直接调用start方法,</p>
+</blockquote>
+<p>分析: 主线程 – 同步执行 – 不开启子线程</p>
+<pre><code>NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+    // 要执行的任务或操作
+}];
+[operation start];
+</code></pre><blockquote>
+<p>情景二 、封装一个NSOperation操作,往里添加多个block任务, </p>
+</blockquote>
+<p>分析1: 第一个操作 : 主线程 – 异步执行 – 不开启子线程 </p>
+<p>分析2: 后添加的操作 : 子线程 – 异步执行 – 开启子线程  </p>
+<pre><code>NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+    // 要执行的任务或操作A
+}];
+
+[operation addExecutionBlock:^{
+    // 要执行的任务或操作B
+}];
+
+[operation addExecutionBlock:^{
+    // 要执行的任务或操作C
+}];
+
+[operation start];     
+</code></pre><p>操作A在主线程, 操作B、C在子线程</p>
+<p>情景三 、创建一个NSOperationQueue的队列 封装一个(或者多个)NSOperation操作 </p>
+<p>分析: 子线程 – 异步执行 – 开启子线程</p>
+<pre><code>NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+
+NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+    // 要执行的任务或操作
+}];
+
+[queue addOperation:operation];
+</code></pre><p>操作是在子线程异步执行</p>
+<pre><code>NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+
+// 封装
+NSBlockOperation *operationA = [NSBlockOperation blockOperationWithBlock:^{
+    // 要执行的任务或操作A
+}];
+
+NSBlockOperation *operationB = [NSBlockOperation blockOperationWithBlock:^{
+    // 要执行的任务或操作B
+}];
+
+[queue addOperation:operationA];
+[queue addOperation:operationB];
+[queue addOperationWithBlock:^{
+   // 要执行的操作或任务C
+}];
+</code></pre><p>操作A、B、C是在子线程异步执行的</p>
+<h4 id="常见的用法"><a href="#常见的用法" class="headerlink" title="常见的用法"></a>常见的用法</h4><ol>
+<li><p>设置最大并发数</p>
+<ul>
+<li>-(void)setMaxConcurrentOperationCount:(NSInteger)count;</li>
+<li>(NSInteger)maxConcurrentOperationCount;</li>
+</ul>
+</li>
+<li><p>队列其它操作</p>
+<ul>
+<li>取消所有操作 -(void)cancelAllOperations;</li>
+<li>暂停所有操作 [queue setSuspended:YES];</li>
+<li>恢复所有操作 [queue setSuspended:NO];</li>
+</ul>
+</li>
+</ol>
+<h4 id="操作之间的依赖"><a href="#操作之间的依赖" class="headerlink" title="操作之间的依赖"></a>操作之间的依赖</h4><ul>
+<li>NSOperation之间可以设置依赖来保证执行顺序</li>
+<li>[operationB addDependency:operationA];  — <code>等操作A执行完毕后才能执行操作B</code> （不能相互依赖）</li>
+</ul>
+<h4 id="线程之间的通讯"><a href="#线程之间的通讯" class="headerlink" title="线程之间的通讯"></a>线程之间的通讯</h4><pre><code>[queue addOperationWithBlock:^{
+   // 要执行耗时操作
+
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        // 回到主线程执行的操作
+    }];
+}];
+</code></pre>
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">Snippet</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2019/03/01/Leetcode1/" class="pre-post btn btn-default" title='Leetcode 题解|1. 两数之和'>
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">Leetcode 题解|1. 两数之和</span>
+        </a>
+    
+    
+        <a href="/2015/08/05/多线程2/" class="next-post btn btn-default" title='多线程基础02 GCD'>
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">多线程基础02 GCD</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+            appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+            placeholder: '说点什么吧',
+            notify: false,
+            verify: false,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: 'zh-CN'.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#NSOperation的作用"><span class="toc-text">NSOperation的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NSOperation和NSOperationQueue实现多线程的具体步骤"><span class="toc-text">NSOperation和NSOperationQueue实现多线程的具体步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NSOperation是一个操作类它的的子类才有封装操作的能力"><span class="toc-text">NSOperation是一个操作类它的的子类才有封装操作的能力</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#队列的类型"><span class="toc-text">队列的类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#队列添加任务"><span class="toc-text">队列添加任务</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#上代码"><span class="toc-text">上代码</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#常见的用法"><span class="toc-text">常见的用法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#操作之间的依赖"><span class="toc-text">操作之间的依赖</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#线程之间的通讯"><span class="toc-text">线程之间的通讯</span></a></li></ol></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2014
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script src="/js/app.js?rev=@@hash.js"></script>
+
+</body>
+</html>
